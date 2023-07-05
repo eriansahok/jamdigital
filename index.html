@@ -1,132 +1,107 @@
- <div class="jam-digital">
-   <h1>Jam Digital</h1>
-   <div id="jam"></div>
-   <div id="unit">
-     <span>Jam</span>
-     <span>Menit</span>
-     <span>Detik</span>
-   </div>
-</div>
-
+<!DOCTYPE html>
+<!-- Created By CodingNepal -->
+<html lang="en" dir="ltr">
+   <head>
+      <meta charset="utf-8">
+      <title>Digital Clock with Glowing Effect | CodingNepal</title>
+      <link rel="stylesheet" href="style.css">
+   </head>
+   <body>
+      <div class="wrapper">
+         <div class="display">
+            <div id="time"></div>
+         </div>
+         <span></span>
+         <span></span>
+      </div>
+      <script>
+         setInterval(()=>{
+           const time = document.querySelector(".display #time");
+           let date = new Date();
+           let hours = date.getHours();
+           let minutes = date.getMinutes();
+           let seconds = date.getSeconds();
+           let day_night = "AM";
+           if(hours > 12){
+             day_night = "PM";
+             hours = hours - 12;
+           }
+           if(seconds < 10){
+             seconds = "0" + seconds;
+           }
+           if(minutes < 10){
+             minutes = "0" + minutes;
+           }
+           if(hours < 10){
+             hours = "0" + hours;
+           }
+           time.textContent = hours + ":" + minutes + ":" + seconds + " "+ day_night;
+         });
+      </script>
+   </body>
+</html>
 <style>
-body {
-   background: #282828;
-   font-family: tahoma;
-   color: #fff;
+*{
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
 }
-h1 {
-   margin: 20px 10%;
-   font-size: 60px;
-   letter-spacing: 10px;
+html,body{
+  display: grid;
+  height: 100%;
+  place-items: center;
+  background: #000;
 }
-.jam-digital {
-   width: 70%;
-   margin: 10% 30%;
+.wrapper{
+  height: 100px;
+  width: 360px;
+  position: relative;
+  background: linear-gradient(135deg, #14ffe9, #ffeb3b, #ff00e0);
+  border-radius: 10px;
+  cursor: default;
+  animation: animate 1.5s linear infinite;
 }
-#jam span {
-   float: left;
-   text-align: center;
-   font-size: 70px;
-   margin: 0 2.5%;
-   padding: 20px;
-   width: 15%;
-   border-radius: 10px;
-   box-sizing: border-box;
+.wrapper .display,
+.wrapper span{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
-#jam span:nth-child(1) {
-   background: #a70c0c;
+.wrapper .display{
+  z-index: 999;
+  height: 85px;
+  width: 345px;
+  background: #1b1b1b;
+  border-radius: 6px;
+  text-align: center;
 }
-#jam span:nth-child(2) {
-   background: #f6ab29;
+.display #time{
+  line-height: 85px;
+  color: #fff;
+  font-size: 50px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  background: linear-gradient(135deg, #14ffe9, #ffeb3b, #ff00e0);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: animate 1.5s linear infinite;
 }
-#jam span:nth-child(3) {
-   background: #298f19;
+@keyframes animate {
+  100%{
+    filter: hue-rotate(360deg);
+  }
 }
-#jam::after {
-   content: "";
-   display: block;
-   clear: both;
+.wrapper span{
+  height: 100%;
+  width: 100%;
+  border-radius: 10px;
+  background: inherit;
 }
-#unit span {
-   float: left;
-   width: 20%;
-   margin-top: 30px;
-   text-align: center;
-   text-transform: uppercase;
-   letter-spacing: 2px;
-   font-size: 18px;
-   text-shadow: 1px 1px 1px rgba(10, 10, 10, 0.7)
+.wrapper span:first-child{
+  filter: blur(7px);
 }
-span.turn {
-   animation: turn 0.7s ease;
+.wrapper span:last-child{
+  filter: blur(20px);
 }
-@keyframes turn {
-   0% {transform: rotateX(0deg)}
-   100% {transform: rotateX(360deg)}
-}
-@media screen and (max-width: 980px){
-   #jam span {
-      float: left;
-      text-align: center;
-      font-size: 50px;
-      margin: 0 1.5%;
-      padding: 20px;
-      width: 20%;
-   }
-   h1 {
-      margin: 20px 5%;
-   }
-   .jam-digital {
-      width: 100%;
-      margin: 10% 20%;
-   }
-   #unit span {
-      width: 23%;
-   }
-}
-</style>
-
-<script>
-    function animation(span) {
-   span.className = "turn";
-   setTimeout(function () {
-      span.className = ""
-   }, 700);
-}
-
-function jam() {
-   setInterval(function () {
-
-      var waktu = new Date();
-      var jam   = document.getElementById('jam');
-      var hours = waktu.getHours();
-      var minutes = waktu.getMinutes();
-      var seconds = waktu.getSeconds();
-
-      if (waktu.getHours() < 10)
-      {
-         hours = '0' + waktu.getHours();
-      }
-      if (waktu.getMinutes() < 10)
-      {
-         minutes = '0' + waktu.getMinutes();
-      }
-      if (waktu.getSeconds() < 10)
-      {
-         seconds = '0' + waktu.getSeconds();
-      }
-      jam.innerHTML  = '<span>' + hours + '</span>'
-                     + '<span>' + minutes + '</span>'
-                     + '<span>' + seconds +'</span>';
-
-      var spans      = jam.getElementsByTagName('span');
-      animation(spans[2]);
-      if (seconds == 0) animation(spans[1]);
-      if (minutes == 0 && seconds == 0) animation(spans[0]);
-
-   }, 1000);
-}
-
-jam();
-
-</script>
+ </style>
